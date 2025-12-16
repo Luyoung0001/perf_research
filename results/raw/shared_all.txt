@@ -1,0 +1,35 @@
+=== Shared Cache Cooperation Test ===
+Array size: 16 KB (fits in L1 cache)
+Elements: 2048
+Iterations: 100000
+L1 D-Cache: 32 KB (shared by HT siblings)
+
+=== Single Thread Test ===
+[SingleThread] Running on CPU 0
+Result: 19674733232
+Time: 0.0590 seconds
+Throughput: 3469.70 M ops/sec
+
+=== Same Core HT (CPU 0,8) - Shared L1 Cache ===
+CPU binding: Thread0 -> CPU0, Thread1 -> CPU8
+[Thread0] Running on CPU 0
+[Thread1] Running on CPU 8
+Thread 0: Result=11946298975, Time=0.0472 sec
+Thread 1: Result=11801798044, Time=0.0472 sec
+Wall time: 0.0472 seconds
+Throughput: 4338.34 M ops/sec
+
+=== Different Cores (CPU 0,1) - Separate L1 Caches ===
+CPU binding: Thread0 -> CPU0, Thread1 -> CPU1
+[Thread0] Running on CPU 0
+[Thread1] Running on CPU 1
+Thread 0: Result=12608444440, Time=0.0295 sec
+Thread 1: Result=12266483328, Time=0.0319 sec
+Wall time: 0.0319 seconds
+Throughput: 6415.59 M ops/sec
+
+=== Analysis ===
+Expected benefits of same-core HT:
+1. Shared L1 cache - data prefetched by one thread benefits the other
+2. Lower cache-to-cache transfer latency
+3. Better cache utilization for small working sets

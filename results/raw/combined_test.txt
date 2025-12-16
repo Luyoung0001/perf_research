@@ -1,0 +1,24 @@
+=== Combined Hyper-Threading + Prefetch Test ===
+Array size per thread: 32 MB
+Prefetch distance: 16 elements
+
+Configuration                               Time(s)    Speedup
+------------------------------------------------------------
+Single thread, no prefetch                   0.0020      1.00x
+Single thread, with prefetch                 0.0014       1.44x
+Same core HT (0,8), no prefetch              0.0023       0.85x
+Same core HT (0,8), with prefetch            0.0034       0.58x
+Different cores (0,1), no prefetch           0.0023       0.88x
+Different cores (0,1), with prefetch         0.0027       0.74x
+
+=== Analysis ===
+Prefetch improvement (single):     43.5%
+HT same core improvement:          -14.6%
+HT same core + prefetch:           -42.1%
+Different cores improvement:       -11.6%
+Different cores + prefetch:        -25.8%
+
+Key findings:
+1. Compare HT with/without prefetch to see if prefetch helps
+2. Compare HT vs different cores for parallelism benefit
+3. Best config is usually: different cores + prefetch

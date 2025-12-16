@@ -1,0 +1,30 @@
+=== D-Cache Contention Test ===
+Array size: 8 MB each
+L1 D-Cache: 32 KB (shared by HT siblings)
+Stride: 64 elements (512 bytes)
+Iterations: 10
+
+=== Single Thread Test ===
+[SingleThread] Running on CPU 0
+Result: 6442495950563629056
+Time: 0.0004 seconds
+
+=== Same Core HT (CPU 0,8) - Cache Contention ===
+CPU binding: Thread0 -> CPU0, Thread1 -> CPU8
+[Thread0] Running on CPU 0
+[Thread1] Running on CPU 8
+Thread 0: Result=13125842180712207360, Time=0.0003 sec
+Thread 1: Result=12884991901127258112, Time=0.0005 sec
+Wall time: 0.0005 seconds
+
+=== Different Cores (CPU 0,1) - Independent Caches ===
+CPU binding: Thread0 -> CPU0, Thread1 -> CPU1
+[Thread0] Running on CPU 0
+[Thread1] Running on CPU 1
+Thread 0: Result=17626361611665344512, Time=0.0005 sec
+Thread 1: Result=7804940287714863104, Time=0.0004 sec
+Wall time: 0.0005 seconds
+
+=== Analysis ===
+Expected: Same-core HT should be SLOWER due to L1 cache contention
+         Different-core should be faster (independent L1 caches)

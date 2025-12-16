@@ -1,0 +1,32 @@
+=== Random Access Prefetch Test ===
+Array size: 64 MB
+Access count: 10000000
+Prefetch ahead: 8 steps
+
+This is where software prefetch shines!
+Hardware prefetcher cannot predict random access patterns.
+
+=== No Prefetch (baseline) ===
+Result: 41950766320752
+Time: 0.0521 seconds
+Throughput: 191.84 M accesses/sec
+Avg latency: 5.2 ns/access
+
+=== With Prefetch (single) ===
+Result: 41950766320752
+Time: 0.0516 seconds
+Throughput: 193.68 M accesses/sec
+Avg latency: 5.2 ns/access
+
+=== Multi-level Prefetch (T0+T1) ===
+Result: 41950766320752
+Time: 0.0470 seconds
+Throughput: 212.79 M accesses/sec
+Avg latency: 4.7 ns/access
+
+=== Analysis ===
+For random access:
+- Hardware prefetcher is ineffective
+- Software prefetch can significantly reduce latency
+- Key: prefetch far enough ahead to hide memory latency
+- But not too far, or data may be evicted before use

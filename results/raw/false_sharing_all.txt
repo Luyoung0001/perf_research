@@ -1,0 +1,39 @@
+=== False Sharing Demonstration ===
+Cache line size: 64 bytes
+
+Bad design: All counters share cache line(s)
+  sizeof(bad_counters) = 32 bytes
+
+Good design: Each counter has its own cache line
+  sizeof(good_counters) = 256 bytes
+
+=== Bad Design (False Sharing) ===
+Threads: 4, Iterations per thread: 100000000
+Thread times:
+  Thread 0: 0.1565 sec
+  Thread 1: 0.1536 sec
+  Thread 2: 0.1649 sec
+  Thread 3: 0.1647 sec
+Wall time: 0.1649 seconds
+Ops/sec: 2425.71 M
+
+=== Good Design (No False Sharing) ===
+Threads: 4, Iterations per thread: 100000000
+Thread times:
+  Thread 0: 0.0207 sec
+  Thread 1: 0.0207 sec
+  Thread 2: 0.0197 sec
+  Thread 3: 0.0198 sec
+Wall time: 0.0208 seconds
+Ops/sec: 19273.97 M
+
+=== Analysis ===
+False sharing occurs when:
+- Multiple threads modify different variables
+- But those variables share the same cache line
+- Each write invalidates the line in other cores' caches
+
+Solution:
+- Pad each variable to its own cache line
+- Use __attribute__((aligned(64)))
+- Or use CACHE_PADDED macro
